@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import db from "../Firebase-file/firebase-dbs";
 import { collection, getDocs } from "firebase/firestore";
 import Update from "./Update";
+import Delete from "./Delete";
 const Read = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [updateData, setUpdateData] = useState({});
+  const [falsey, truey] = useState(false);
+
   useEffect(() => {
     const getEmployeeData = async () => {
       const employeeCollectionRef = collection(db, "Employees");
@@ -14,7 +17,6 @@ const Read = () => {
     };
     getEmployeeData();
   }, []);
-  // employeeData && console.log(employeeData);
   function sendEmployeeDataToUpdate() {}
   return (
     <div>
@@ -27,15 +29,23 @@ const Read = () => {
             <li>{employee.Age}</li>
             <button
               onClick={() => {
-                // console.log(employee);
                 setUpdateData(employee);
               }}
             >
               Update{" "}
             </button>
-            <button>Delete</button>
+            <button
+              onClick={() => {
+                console.log(employee);
+                setUpdateData(employee);
+                truey(true);
+              }}
+            >
+              Delete
+            </button>
           </ul>
         ))}
+      {falsey && <Delete data={updateData} />}
       <Update data={updateData} />
     </div>
   );
